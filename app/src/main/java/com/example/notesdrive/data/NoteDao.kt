@@ -19,9 +19,9 @@ interface NoteDao {
     @Query("SELECT * FROM note_table ORDER BY dateAdded ASC")
     fun loadAllByDateAdded(): LiveData<List<Note>>
 
-    @Query("SELECT COUNT(*) FROM note_table")
-    fun getCountFromTable(): LiveData<Int>
+//    @Query("SELECT COUNT(*) FROM note_table")
+//    fun getCountFromTable(): LiveData<Int>
 
-    @Query("SELECT SUM(cost) FROM note_table")
-    fun getSumCost(): LiveData<Int>
+//    @Query("SELECT SUM(cost) FROM note_table")
+//    fun getSumCost(): LiveData<Int>
 }

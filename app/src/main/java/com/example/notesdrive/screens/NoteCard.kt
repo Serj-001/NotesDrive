@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.notesdrive.data.Note
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -41,7 +43,14 @@ Box (
 
 ){
     Column {
-        Text(text = note.title)
+        Text(
+            text = note.costType,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = note.title,
+            fontSize = 8.sp
+        )
         Text(text = note.description)
         Row {
             Text(text = ConvertLongToString(note.dateAdded))

@@ -10,5 +10,6 @@ data class Note(
     val title: String,
     val description: String,
     val dateAdded: Long,
-    val cost: Int
+    val cost: Int,
+    val costType: String
 )
