@@ -3,7 +3,6 @@ package com.example.notesdrive.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +27,7 @@ import java.util.Date
 @Composable
 fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
 
-    val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
+    //val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
 
     var noteCostType by remember {
         mutableStateOf("")
@@ -65,7 +63,7 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
             )
 
             OutlinedTextField(
-                value = viewModel.noteCost.toString(),
+                value = viewModel.noteCost,
                 onValueChange = { viewModel.changeCost(it).toString() },
                 placeholder = { Text(text = "Стоимость") },
                 keyboardOptions = KeyboardOptions(
