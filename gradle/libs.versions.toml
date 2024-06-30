@@ -10,9 +10,11 @@ activityCompose = "1.9.0"
 composeBom = "2024.04.01"
 lifecycleViewmodelComposeAndroid = "2.8.2"
 nav_version = "2.7.7"
+coreSplashScreen = "1.0.0"
 
 [libraries]
 
+androidx-core-splashscreen = {group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen"}
 androidx-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "nav_version"}
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

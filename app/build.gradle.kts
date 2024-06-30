@@ -52,6 +52,8 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.core.splashscreen)
+
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
