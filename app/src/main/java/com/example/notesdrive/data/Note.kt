@@ -9,6 +9,6 @@ data class Note(
     val id: Int = 0,
     val description: String,
     val dateAdded: Long,
-    val cost: Int,
+    val cost: Int? = null,
     val costType: String
 )

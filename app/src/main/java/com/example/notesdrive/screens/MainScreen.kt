@@ -1,8 +1,6 @@
 package com.example.notesdrive.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.notesdrive.data.Note
 import com.example.notesdrive.view.NoteViewModel
 
@@ -68,9 +65,18 @@ fun MainScreen(
                 .fillMaxWidth()
         ) {
             Column {
-                Text(text = "Заправка: " + SumOfColumnRefill(notes).toString() + " р.")
-                Text(text = "Запчасти: " + SumOfColumnPart(notes).toString() + " р.")
-                Text(text = "Ремонт: " + SumOfColumnRepair(notes).toString() + " р.")
+                Text(
+                    text = "Заправка: " + SumOfColumnRefill(notes).toString() + " р.",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Text(
+                    text = "Запчасти: " + SumOfColumnPart(notes).toString() + " р.",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Text(
+                    text = "Ремонт: " + SumOfColumnRepair(notes).toString() + " р.",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
 
             LazyColumn(
@@ -90,7 +96,7 @@ fun MainScreen(
 fun SumOfColumnRefill(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Заправка") sum += item.cost
+        if (item.costType == "Заправка" && item.cost != null) sum += item.cost
     }
     return sum
 }
@@ -98,7 +104,7 @@ fun SumOfColumnRefill(notes: List<Note>) : Int {
 fun SumOfColumnPart(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Запчасти") sum += item.cost
+        if (item.costType == "Запчасти" && item.cost != null) sum += item.cost
     }
     return sum
 }
@@ -106,7 +112,7 @@ fun SumOfColumnPart(notes: List<Note>) : Int {
 fun SumOfColumnRepair(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Ремонт") sum += item.cost
+        if (item.costType == "Ремонт" && item.cost != null) sum += item.cost
     }
     return sum
 }
