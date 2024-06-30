@@ -1,5 +1,6 @@
 package com.example.notesdrive.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
@@ -8,11 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.DialogProperties
+import com.example.notesdrive.data.Note
+import com.example.notesdrive.view.NoteViewModel
 
 @Composable
 fun AlertDialogDeleteCard(
     onDismissRequest: () -> Unit,
-    onConfirmationRequest: () -> Unit
+    onConfirmationRequest: () -> Unit,
+    note: Note
 ) {
     AlertDialog(
         properties = DialogProperties(
@@ -25,7 +29,7 @@ fun AlertDialogDeleteCard(
                 onClick = {
                     onConfirmationRequest()
                 }) {
-            Text(text = "DELETE")
+            Text(text = "УДАЛИТЬ")
             }
         },
         dismissButton = {
@@ -33,17 +37,21 @@ fun AlertDialogDeleteCard(
                 onClick = {
                     onDismissRequest()
                 }) {
-            Text(text = "Cancel")
+            Text(text = "Отмена")
             }
         },
         icon = {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "dalete")
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
         },
         title = {
-            Text(text = "Warning!")
+            Text(text = "Внимание!")
         },
         text = {
-            Text(text = "Delete the current note?")
+            Column {
+                Text(text = "Удалить текущую заметку?")
+                Text(text = note.costType)
+                Text(text = note.cost.toString() + " р.")
+            }
         }
     )
 }

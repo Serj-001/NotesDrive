@@ -10,6 +10,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.notesdrive.screens.AddNoteScreen
 import com.example.notesdrive.screens.MainScreen
 import com.example.notesdrive.ui.theme.NotesDriveTheme
 import com.example.notesdrive.view.NoteViewModel
@@ -25,6 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             val owner = LocalViewModelStoreOwner.current
 
             owner?.let {
@@ -35,7 +40,25 @@ class MainActivity : ComponentActivity() {
                 )
             }
             NotesDriveTheme {
-                MainScreen(viewModel())
+                NavHost(
+                    navController = navController,
+                    startDestination = "MainScreen"
+                ) {
+                    composable("MainScreen") {
+                        MainScreen(viewModel = viewModel()) {
+                            navController.navigate("AddNoteScreen")
+                        }
+                    }
+                    composable("AddNoteScreen") {
+                        AddNoteScreen(viewModel = viewModel()) {
+                            navController.navigate("MainScreen"){
+                                popUpTo("MainScreen"){
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
