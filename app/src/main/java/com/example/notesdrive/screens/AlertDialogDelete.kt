@@ -8,6 +8,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
 import com.example.notesdrive.data.Note
 import com.example.notesdrive.view.NoteViewModel
@@ -48,7 +49,10 @@ fun AlertDialogDeleteCard(
         },
         text = {
             Column {
-                Text(text = "Удалить текущую заметку?")
+                Text(
+                    text = "Удалить текущую заметку?",
+                    fontWeight = FontWeight.Bold
+                )
                 Text(text = note.costType)
                 Text(text = note.cost.toString() + " р.")
             }
