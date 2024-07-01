@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
                             navController.navigate("AddNoteScreen")
                         }
                     }
+
                     composable("AddNoteScreen") {
                         AddNoteScreen(viewModel = viewModel()) {
                             navController.navigate("MainScreen"){

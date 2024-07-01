@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.room.Update
 import com.example.notesdrive.data.Note
 import com.example.notesdrive.view.NoteViewModel
 import java.text.SimpleDateFormat
@@ -78,6 +80,12 @@ Box (
             modifier = Modifier.padding(horizontal = 8.dp),
             fontSize = 12.sp
         )
+        TextButton(onClick = {  }) {
+            Text(
+                text = "Update",
+                color = Color.Red
+            )
+        }
     }
 
 }

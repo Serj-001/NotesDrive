@@ -1,6 +1,7 @@
 package com.example.notesdrive.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,8 +19,11 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.notesdrive.data.Note
 import com.example.notesdrive.view.NoteViewModel
 
@@ -27,7 +31,7 @@ import com.example.notesdrive.view.NoteViewModel
 @Composable
 fun MainScreen(
     viewModel: NoteViewModel,
-    onClick: () -> Unit
+    onClickDelete: () -> Unit
 ) {
     val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
 
@@ -49,7 +53,7 @@ fun MainScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onClick()
+                    onClickDelete()
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 content = {
@@ -64,19 +68,41 @@ fun MainScreen(
                 .padding(innerPadding)
                 .fillMaxWidth()
         ) {
-            Column {
-                Text(
-                    text = "Заправка: " + SumOfColumnRefill(notes).toString() + " р.",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Text(
-                    text = "Запчасти: " + SumOfColumnPart(notes).toString() + " р.",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Text(
-                    text = "Ремонт: " + SumOfColumnRepair(notes).toString() + " р.",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
+            Row {
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.5f)
+                ) {
+                    Text(
+                        text = "Заправка: " + SumOfColumnRefill(notes).toString() + " р.",
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                    Text(
+                        text = "Запчасти: " + SumOfColumnPart(notes).toString() + " р.",
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                    Text(
+                        text = "Ремонт: " + SumOfColumnRepair(notes).toString() + " р.",
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Всего: ",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                    Text(
+                        text = SumAllRepair(notes)
+                            .toString() + " р.",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.error
+                        )
+                }
             }
 
             LazyColumn(
@@ -96,7 +122,7 @@ fun MainScreen(
 fun SumOfColumnRefill(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Заправка" && item.cost != null) sum += item.cost
+        if (item.costType == "Заправка") sum += item.cost
     }
     return sum
 }
@@ -104,7 +130,7 @@ fun SumOfColumnRefill(notes: List<Note>) : Int {
 fun SumOfColumnPart(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Запчасти" && item.cost != null) sum += item.cost
+        if (item.costType == "Запчасти") sum += item.cost
     }
     return sum
 }
@@ -112,7 +138,15 @@ fun SumOfColumnPart(notes: List<Note>) : Int {
 fun SumOfColumnRepair(notes: List<Note>) : Int {
     var sum = 0
     for (item in notes) {
-        if (item.costType == "Ремонт" && item.cost != null) sum += item.cost
+        if (item.costType == "Ремонт") sum += item.cost
+    }
+    return sum
+}
+
+fun SumAllRepair(notes: List<Note>) : Int {
+    var sum = 0
+    for (item in notes) {
+        sum += item.cost
     }
     return sum
 }

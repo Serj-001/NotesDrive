@@ -16,7 +16,7 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     val loadAllByDateAdded: LiveData<List<Note>>
     private val repository: NoteRepository
     var noteDescription by mutableStateOf("")
-    var noteCost by mutableStateOf("")
+    var noteCost by mutableStateOf(0)
 
     init {
         val noteDao = NoteDatabase.getDatabase(application).noteDao()
@@ -29,8 +29,7 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun changeCost(value: String) {
-        noteCost = value
-        //noteCost = value.toIntOrNull()?:noteCost
+        noteCost = value.toIntOrNull()?:noteCost
     }
 
     fun addNote(note: Note) {
@@ -42,6 +41,12 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     fun deleteNote(note: Note) {
         viewModelScope.launch {
             repository.deleteNote(note)
+        }
+    }
+
+    fun updateNote(note: Note) {
+        viewModelScope.launch {
+            repository.updateNote(note)
         }
     }
 }

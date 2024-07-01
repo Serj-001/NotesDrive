@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface NoteDao {
@@ -19,6 +20,8 @@ interface NoteDao {
     @Query("SELECT * FROM note_table ORDER BY dateAdded DESC")
     fun loadAllByDateAdded(): LiveData<List<Note>>
 
+    @Update
+    suspend fun updateNote(note: Note)
 //    @Query("SELECT COUNT(*) FROM note_table")
 //    fun getCountFromTable(): LiveData<Int>
 

@@ -36,7 +36,7 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
     val note = Note(
         description = viewModel.noteDescription,
         dateAdded = Date().time,
-        cost = viewModel.noteCost.toIntOrNull(),
+        cost = viewModel.noteCost,
         costType = noteCostType
     )
 
@@ -44,7 +44,8 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
     ) { innerPadding ->
 
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -63,8 +64,10 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
             )
 
             OutlinedTextField(
-                value = viewModel.noteCost,
-                onValueChange = { viewModel.changeCost(it).toString() },
+                value = viewModel.noteCost.toString(),
+                onValueChange = {
+                    viewModel.changeCost(it)
+                },
                 placeholder = { Text(text = "Стоимость") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
