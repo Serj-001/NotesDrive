@@ -20,24 +20,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.notesdrive.data.Note
+import com.example.notesdrive.navigation.Screen
 import com.example.notesdrive.view.NoteViewModel
 import java.util.Date
 
 @Composable
-fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
+fun AddNoteScreen(
+    viewModel: NoteViewModel,
+    navController: NavHostController
+) {
 
-    //val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
+//val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
 
-    var noteCostType by remember {
-        mutableStateOf("")
-    }
+//    var noteCostType by remember {
+//        mutableStateOf("")
+//    }
 
     val note = Note(
         description = viewModel.noteDescription,
         dateAdded = Date().time,
         cost = viewModel.noteCost,
-        costType = noteCostType
+        costType = viewModel.noteCostType
     )
 
     Scaffold(
@@ -51,7 +56,7 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
             verticalArrangement = Arrangement.Center
 
         ) {
-            noteCostType = CostTypeDropMenu()
+            viewModel.noteCostType = CostTypeDropMenu()
 
             OutlinedTextField(
                 modifier = Modifier
@@ -78,7 +83,11 @@ fun AddNoteScreen(viewModel: NoteViewModel, onClick: () -> Unit) {
 
             Button(onClick = {
                 viewModel.addNote(note)
-                onClick()
+                navController.navigate(route = Screen.Main.route){
+                    popUpTo(route = Screen.Main.route) {
+                        inclusive = true
+                    }
+                }
             }) {
                 Text(text = "Добавить запись")
             }

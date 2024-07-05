@@ -11,13 +11,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.notesdrive.data.Note
+import com.example.notesdrive.navigation.SetupNavGraph
 import com.example.notesdrive.screens.AddNoteScreen
 import com.example.notesdrive.screens.MainScreen
 import com.example.notesdrive.ui.theme.NotesDriveTheme
 import com.example.notesdrive.view.NoteViewModel
+import java.util.Date
 
 class NoteViewModelFactory(val application: Application): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -26,12 +31,14 @@ class NoteViewModelFactory(val application: Application): ViewModelProvider.Fact
 }
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var navController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
             val owner = LocalViewModelStoreOwner.current
 
             owner?.let {
@@ -41,27 +48,16 @@ class MainActivity : ComponentActivity() {
                     NoteViewModelFactory(LocalContext.current.applicationContext as Application)
                 )
             }
+            val viewModel: NoteViewModel = viewModel()
             NotesDriveTheme {
-                NavHost(
-                    navController = navController,
-                    startDestination = "MainScreen"
-                ) {
-                    composable("MainScreen") {
-                        MainScreen(viewModel = viewModel()) {
-                            navController.navigate("AddNoteScreen")
-                        }
-                    }
-
-                    composable("AddNoteScreen") {
-                        AddNoteScreen(viewModel = viewModel()) {
-                            navController.navigate("MainScreen"){
-                                popUpTo("MainScreen"){
-                                    inclusive = true
-                                }
-                            }
-                        }
-                    }
-                }
+                val note = Note(
+                    description = viewModel.noteDescription,
+                    dateAdded = Date().time,
+                    cost = viewModel.noteCost,
+                    costType = viewModel.noteCostType
+                )
+                navController = rememberNavController()
+                SetupNavGraph(navController = navController, note)
             }
         }
     }

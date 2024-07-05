@@ -3,6 +3,7 @@ package com.example.notesdrive.view
 import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -17,6 +18,7 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     private val repository: NoteRepository
     var noteDescription by mutableStateOf("")
     var noteCost by mutableStateOf(0)
+    var noteCostType by  mutableStateOf("")
 
     init {
         val noteDao = NoteDatabase.getDatabase(application).noteDao()

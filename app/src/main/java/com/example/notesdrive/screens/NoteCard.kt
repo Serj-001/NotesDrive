@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,16 +27,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.room.Update
+import androidx.navigation.NavHostController
 import com.example.notesdrive.data.Note
-import com.example.notesdrive.view.NoteViewModel
+import com.example.notesdrive.navigation.Screen
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
 fun NoteCard (
     note: Note,
-    delete: (Note) -> Unit
+    delete: (Note) -> Unit,
+    navController: NavHostController
 ) {
     var isShowAlertDialog by remember {
         mutableStateOf(false)
@@ -80,7 +80,9 @@ Box (
             modifier = Modifier.padding(horizontal = 8.dp),
             fontSize = 12.sp
         )
-        TextButton(onClick = {  }) {
+        TextButton(onClick = {
+            navController.navigate(route = Screen.UpdateScreen.route)
+        }) {
             Text(
                 text = "Update",
                 color = Color.Red

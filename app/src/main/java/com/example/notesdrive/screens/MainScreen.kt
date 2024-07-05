@@ -24,14 +24,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.notesdrive.data.Note
+import com.example.notesdrive.navigation.Screen
 import com.example.notesdrive.view.NoteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     viewModel: NoteViewModel,
-    onClickDelete: () -> Unit
+    navController: NavHostController
 ) {
     val notes by viewModel.loadAllByDateAdded.observeAsState(initial = listOf())
 
@@ -53,7 +55,7 @@ fun MainScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onClickDelete()
+                    navController.navigate(route = Screen.AddScreen.route)
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 content = {
@@ -111,7 +113,8 @@ fun MainScreen(
                 items(notes) { n ->
                     NoteCard(
                         n,
-                        delete = { viewModel.deleteNote(it) }
+                        delete = { viewModel.deleteNote(it) },
+                        navController
                     )
                 }
             }
